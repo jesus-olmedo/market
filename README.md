@@ -11,29 +11,47 @@ This project is using the following modules:
 
 ---
 
-### Build and Run
+### Run Test
+```
+gradle test
+```
+view jacoco report
+
+### Environments
 
 Create Database in MongoDB and setting environments with
 
 ```
 export MONGO_URI=mongodb+srv://<user_example>:<password>@<cluster>/<database>
-export MONGO_USER=user_example
-export MONGO_DB=database
+export MONGO_USER=<user_example>
+export MONGO_DB=<database>
+export SPRING_SECURITY_USER_NAME=<user_api>
+export SPRING_SECURITY_USER_PASSWORD=<user_pass>
 ```
 
-
-#### In Docker
-
-```
-$ 
-```
 
 ---
 
-### Endpoints
 
+### Basic Auth
+Use Basic Auth with credential in environments
 
-#### Product Service
+username is SPRING_SECURITY_USER_NAME
+
+password is SPRING_SECURITY_USER_PASSWOR
+![](test_auth.png)
+
+#### Curl Example Create Product
+````
+curl --location 'http://localhost:8080/products' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Basic *****' \
+--data '{
+	"name": "pasta de ajo",
+    "price": 2.5
+}'
+````
+### Product Service
 
 | HTTP Method | URL                                            | Description          |
 |-------------|------------------------------------------------|----------------------|

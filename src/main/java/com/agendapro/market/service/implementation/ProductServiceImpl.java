@@ -10,7 +10,6 @@ import com.agendapro.market.repository.ProductRepository;
 import com.agendapro.market.service.interfaces.ProductService;
 import com.agendapro.market.shared.constant.Message;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -21,16 +20,19 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+
+    public ProductServiceImpl(ProductRepository repository){
+        this.productRepository = repository;
+    }
 
     @Override
     public ProductDto findById(String productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ProductNotFoundException(
-                        Message.PRODUCT_NOT_FOUND, // todo mejorar mensaje
+                        Message.PRODUCT_NOT_FOUND,
                         HttpStatus.NOT_FOUND,
-                        LocalDateTime.now()) // todo corregir fecha en constructor
+                        LocalDateTime.now())
                 );
         return ProductMapper.INSTANCE.toProductDto(product);
     }
